@@ -1,4 +1,12 @@
 module.exports = {
+  signup : () => {
+    try{
+      return { response: 'You are signup.'}
+    }catch(error){
+      return { error: error }
+    };
+  },
+
   login : () => {
     try{
       return { response: 'You are logged in.'}

@@ -1,5 +1,5 @@
 var createError = require('http-errors');
-const listEndpoints = require('express-list-endpoints')
+const listEndpoints = require('express-list-endpoints');
 var express = require('express');
 // var path = require('path'); //
 var cookieParser = require('cookie-parser');

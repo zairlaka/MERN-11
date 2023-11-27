@@ -4,17 +4,37 @@ const joi = require('joi');
 const loginSchema = joi.object({
   email: joi.string().required().email().min(7).max(50),
   password: joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+}).unknown(); // unknow allow to add
+const signupSchema = joi.object({
+  email: joi.string().required().email().min(7).max(50),
+  userName: joi.string().required().min(3).max(50),
+  password: joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+  passwordConfirmation: joi.ref('password')
 })
 module.exports = {
-  login: async (req, res) => {
-    console.log('req.query ----> ', req.query)
-    console.log('req.body ----> ', req.body)
+  signup: async (req, res) => {
     try{
       const validate = await loginSchema.validateAsync(req.body)
       console.log('validate --> ', validate);
-      const loginResponse = authService.login(validate);
+      const signupResponse = await authService.signup(validate);
+      if(signupResponse.error){
+         return res.send({ error: signupResponse.error })
+      }
+       return res.send({ response: req })
+    }catch(error){
+       return res.send({ error: error})
+    }
+  },
+
+  login: async (req, res) => {
+    try{
+      const validate = await loginSchema.validateAsync(req.body)
+      console.log('validate --> ', validate);
+      const loginResponse = await authService.login(validate);
+      
       if(loginResponse.error){
-         return res.send({ error: loginResponse.error })
+        return res.status(401).json({ error: 'Invalid credentials' });
+        //  return res.send({ error: loginResponse.error })
       }
        return res.send({ response: loginResponse.response })
     }catch(error){
@@ -23,8 +43,6 @@ module.exports = {
   },
 
   logout: (req, res) => {
-    console.log('req.query ----> ', req.query)
-    console.log('req.body ----> ', req.body)
     try{ 
       const logoutResponse  = authService.logout();
       if(logoutResponse.error){
