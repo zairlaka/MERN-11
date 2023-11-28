@@ -1,35 +1,23 @@
 const authService = require("../services/authService");
-const joi = require('joi');
+const schema = require("../utils/joiValidations/authjoi");
 
-const loginSchema = joi.object({
-  email: joi.string().required().email().min(7).max(50),
-  password: joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
-}).unknown(); // unknow allow to add
-const signupSchema = joi.object({
-  email: joi.string().required().email().min(7).max(50),
-  userName: joi.string().required().min(3).max(50),
-  password: joi.string().required().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
-  passwordConfirmation: joi.ref('password')
-})
 module.exports = {
   signup: async (req, res) => {
     try{
-      const validate = await loginSchema.validateAsync(req.body)
-      console.log('validate --> ', validate);
-      const signupResponse = await authService.signup(validate);
+      const validate = await schema.signup.validateAsync(req.body)
+      const signupResponse = await authService.signup(req.body);
       if(signupResponse.error){
          return res.send({ error: signupResponse.error })
       }
-       return res.send({ response: req })
+       return res.send({ response: signupResponse.response })
     }catch(error){
-       return res.send({ error: error})
+       res.send({ error: error})
     }
   },
 
   login: async (req, res) => {
     try{
-      const validate = await loginSchema.validateAsync(req.body)
-      console.log('validate --> ', validate);
+      const validate = await schema.login.validateAsync(req.body)
       const loginResponse = await authService.login(validate);
       
       if(loginResponse.error){

@@ -5,14 +5,12 @@ module.exports = {
   signup: async (body) => {
     try{
       const loginResponse = authModel.signup();
-      delete body.confirmPassword;
+      delete body.passwordConfirmation;
       const { email, password } = body;
       const existingUser = false;
       const db_save_password = 'dsf'
       const hashedPassword = await bcrypt.hash(password, 10);
-      if(!!!(parseInt(body.password))){
-        return { error: 'Invalid credentials' }
-      }
+      console.log("🚀 ~ file: authService.js:13 ~ signup: ~ hashedPassword🔻:", hashedPassword)
 
       if(loginResponse.error){
         return { error: loginResponse.error }
@@ -30,10 +28,10 @@ module.exports = {
       console.log('myNum ==> ',body.password)
       const { email, password } = body;
       const existingUser = false;
-      const db_save_password = '$2a$10$zHsltUB1.3VWiinYkO8jBucrLvHmKPLHLY4LwWA905GzDQthZmMO.x';
+      const db_save_password = '$2a$10$zHsltUB1.3VWiinYkO8jBucrLvHmKPLHLY4LwWA905GzDQthZmMO.';
       const passwordMatch = await bcrypt.compare(password, db_save_password);
       if(!passwordMatch){
-        return { error: "password is incorrect!" }
+        return { error: 'Invalid credentials' }
       }
 
       if(loginResponse.error){
