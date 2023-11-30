@@ -1,11 +1,11 @@
 const authService = require("../services/authService");
-const schema = require("../utils/joiValidations/authjoi");
+const authSchema = require("../utils/joiValidations/authjoi");
 
 module.exports = {
   signup: async (req, res) => {
     try{
-      const validate = await schema.signup.validateAsync(req.body)
-      const signupResponse = await authService.signup(req.body);
+      const validate = await authSchema.signup.validateAsync(req.body)
+      const signupResponse = await authService.signup(validate);
       if(signupResponse.error){
          return res.send({ error: signupResponse.error })
       }
@@ -17,7 +17,7 @@ module.exports = {
 
   login: async (req, res) => {
     try{
-      const validate = await schema.login.validateAsync(req.body)
+      const validate = await authSchema.login.validateAsync(req.body)
       const loginResponse = await authService.login(validate);
       
       if(loginResponse.error){

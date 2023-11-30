@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('express:server');
 var http = require('http');
+//const sequelize = require('../utils/databasse');
+var { db } = require("../models/index")
 
 /**
  * Get port from environment and store in Express.
@@ -25,9 +27,17 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+db.sequelize.sync({alter: true}).then(() => {
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
+}).catch((error) => {
+  console.log("🚀 ~ file: www:35 ~ db.sequelize.sync ~ error🔻:", error)
+})
+
+// server.listen(port);
+// server.on('error', onError);
+// server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
