@@ -1,46 +1,47 @@
-// const Sequelize = require('sequelize');
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../../bin/dbConnection');
-// const database = require('../../bin/dbConnection');
-class Users extends Model {}
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../../bin/dbConnection");
 
-// console.log('--->',dbConnection)
+class Users extends Model {}
 
 Users.init(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      allowNull: false,
+    userId: {
       primaryKey: true,
+      type: DataTypes.STRING(60),
     },
     firstName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(60),
       allowNull: false,
     },
     lastName: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(60),
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING(50),
+      type: DataTypes.STRING(60),
       unique: true,
       allowNull: false,
     },
     password: {
-      type: DataTypes,
-      allowNull: true,
-    }
+      type: DataTypes.STRING(),
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING(),
+      allowNull: false,
+      defaultValue: "trainee",
+    },
   },
-  { 
+  {
     sequelize,
     timestamps: true,
     paranoid: true,
-    modelName: "users"
+    modelName: "users",
   }
-)
+);
 
 module.exports = Users;
+
 
 
 // const db = require('../util/database');
@@ -55,3 +56,7 @@ module.exports = Users;
 //     name: Sequelize.STRING,
 //     email: Sequelize.STRING
 // });
+
+// User: firstName lastName email password
+// project: Name status 
+// tasks: name desc priority status projectID UserID 

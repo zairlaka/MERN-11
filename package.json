@@ -5,6 +5,7 @@
     "express-list-endpoints": "^6.0.0",
     "joi": "^17.11.0",
     "pg": "^8.11.3",
-    "sequelize": "^6.35.1"
+    "sequelize": "^6.35.1",
+    "uuid": "^9.0.1"
   }
 }

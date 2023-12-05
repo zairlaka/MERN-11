@@ -1,5 +1,5 @@
 const authService = require("../services/authService");
-const authSchema = require("../utils/joiValidations/authjoi");
+const authSchema = require("../utils/joiValidations/authJoi");
 
 module.exports = {
   signup: async (req, res) => {

@@ -1,11 +1,25 @@
 {
-  "db" : {
-    "host": "localhost",
-    "port": 5432,
+  "db": {
     "username": "zair",
     "password": "root",
+    "port": 5432,
     "database": "node_live_db",
+    "host": "127.0.0.1",
     "dialect": "postgres",
     "logging": false
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   }
 }
