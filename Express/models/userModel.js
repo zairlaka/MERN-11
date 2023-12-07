@@ -1,4 +1,5 @@
 const { models } = require("./index");
+const { Op } = require('sequelize')
 
 module.exports = {
   createUser: async (body, userId) => {
@@ -27,6 +28,9 @@ module.exports = {
           exclude: ["password"],
         }
       });
+      if(!!!user){
+        return { error: `Sorry, couldn't find the user by the ${email}.`}
+      }
       return {
         response: user,
       };
@@ -37,21 +41,53 @@ module.exports = {
     }
   },
 
-  getAllUsers: async (offset, limit) => {
+  getAllUsers: async (offset, query) => {
+    let search = query.search
     try {
       const users = await models.users.findAll({
         // attributes : ["firstName", "lastName", "role", "email"]
         attributes: {
           exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
         },
+        where: [
+          {
+            ...search.userId ? {userId: search.userId} : true
+          },{
+            ...search.firstName ? { firstName: { [Op.like]: search.firstName }} : true
+          },{
+            ...search.lastName ? { lastName: { [Op.like]: search.lastName }} : true
+          },{
+            ...search.firstName ? { firstName: { [Op.like]: search.firstName }} : true
+          },{
+            ...search.role ? { role: { [Op.in]: [search.role] }} : true
+          },
+        ],
+        // where: { 
+        //   [Op.or]: [
+        //     {
+        //       firstName: query.search
+        //     }, {
+        //       lastName: query.search
+        //     }, {
+        //       email: query.search
+        //     }
+        //   ]
+        // },
 
+        order: [[query.sortValue, query.sortOrder]],
+        // order: [[sequelize.literal('lastName, email'), 'DESC']],
+      //   order: [
+      //     ['lastName', 'desc'],
+      //     ['email', 'asc']
+      //  ],
         offset: offset,
-        limit: limit,
+        limit: query.limit,
       });
       return {
         response: users,
       };
     } catch (error) {
+      console.log("🚀 ~ file: userModel.js:76 ~ getAllUsers: ~ error🔻:", error)
       return {
         error: error,
       };
@@ -64,7 +100,7 @@ module.exports = {
         exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
       }})
       if(!!!user){
-        return { error: "Sorry, couldn't find the user"}
+        return { error: "Sorry, couldn't find the user by that ID."}
       }
       return { response: user }
     } catch (error) {
@@ -78,6 +114,24 @@ module.exports = {
         where: {
           userId: userId,
         },
+      });
+      if(!!!user){
+        return { error: "Sorry, couldn't find the user"}
+      }
+      return {
+        response: user,
+      };
+    } catch (error) {
+      return { error: error }
+    }
+  },
+  updateUser: async (body) => {
+    try {
+      console.log("🚀 ~ file: userModel.js:97 ~ updateUser: ~ body.userId🔻:", body.userId)
+      const user = await models.users.update({ ...body }, {
+        where: {
+          userId: body.userId
+        }
       });
       if(!!!user){
         return { error: "Sorry, couldn't find the user"}

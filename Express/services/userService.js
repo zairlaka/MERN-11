@@ -47,7 +47,7 @@ module.exports = {
   getAllUsers: async (query) => {
     try{
       const offset = (query.pageNo - 1) * query.limit;
-      const users = await userModel.getAllUsers(offset, query.limit)
+      const users = await userModel.getAllUsers(offset, query)
       if(users.error){
         return { error: users.error}
       }
@@ -75,14 +75,26 @@ module.exports = {
       return { error: error }
     }
   },
-  userUpdate: () => {
+  
+  updateUser: async (body) => {
     try{
-      const userUpdateResponse = userModel.userUpdate();
-      console.log(userUpdateResponse)
-      if(userUpdateResponse.error){
-        return { error: userUpdateResponse.error }
+      const isUser = await userModel.getUserById(body.userId);
+      if (!isUser.response || isUser.error) {
+        return {
+          error: "User does not exists.",
+        };
       }
-      return { response: userUpdateResponse.response }
+      delete [body.email, body.role, body.userId]
+      delete body.email
+      delete body.role
+      console.log("🚀 ~ file: userService.js:88 ~ updateUser: ~ body🔻:", body)
+      
+      // delete body.role;
+      const user = await userModel.updateUser(body)
+      if(user.error){
+        return { error: user.error}
+      }
+      return { response: user.response }
     }catch(error){
       return { errror: error }
     }

@@ -14,3 +14,8 @@ return res.send({})
 what is different to npm i uuid 
 
 ```npx express-generator```
+where shoud our const enum 
+
+how to use ternary operator in model query
+multiple search
+multiple sorting

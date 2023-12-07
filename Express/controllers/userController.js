@@ -30,7 +30,7 @@ module.exports = {
   },
   getAllUsers: async (req, res) => {
     try {
-      const validate = await paginationSchema.pagination.validateAsync(req.query);
+      const validate = await userSchema.pagination.validateAsync(req.query);
       const users = await userService.getAllUsers(validate);
       if (users.error) {
         return res.send({
@@ -50,6 +50,7 @@ module.exports = {
   getUser: async (req, res) => {
     try {
       const validate = await userSchema.getUser.validateAsync(req.query);
+      console.log("chech ", validate)
       const user = await userService.getUser(validate);
       if(user.error){
         res.send({ error: user.error })
@@ -79,4 +80,23 @@ module.exports = {
     }
   },
   
+  updateUser: async (req, res) => {
+    try {
+      const validate = await userSchema.updateUser.validateAsync(req.body);
+
+      const user = await userService.updateUser(validate);
+      if (user.error) {
+        return res.send({
+          error: user.error,
+        });
+      }
+      return res.send({
+        response: user.response,
+      });
+    } catch (error) {
+      return res.send({
+        error: error,
+      });
+    }
+  },
 }
