@@ -87,7 +87,6 @@ module.exports = {
         response: users,
       };
     } catch (error) {
-      console.log("🚀 ~ file: userModel.js:76 ~ getAllUsers: ~ error🔻:", error)
       return {
         error: error,
       };
@@ -127,7 +126,6 @@ module.exports = {
   },
   updateUser: async (body) => {
     try {
-      console.log("🚀 ~ file: userModel.js:97 ~ updateUser: ~ body.userId🔻:", body.userId)
       const user = await models.users.update({ ...body }, {
         where: {
           userId: body.userId

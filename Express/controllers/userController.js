@@ -19,7 +19,7 @@ module.exports = {
           error: user.error,
         });
       }
-      return res.send({
+      return res.status(201).send({
         response: user.response,
       });
     } catch (error) {

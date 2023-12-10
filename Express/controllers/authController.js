@@ -22,9 +22,9 @@ module.exports = {
       
       if(loginResponse.error){
         return res.status(401).json({ error: 'Invalid credentials' });
-        //  return res.send({ error: loginResponse.error })
       }
-       return res.send({ response: loginResponse.response })
+      res.cookie("authToken", loginResponse.response)
+      return res.send({ response: loginResponse.response })
     }catch(error){
        return res.send({ error: error})
     }

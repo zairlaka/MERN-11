@@ -1,22 +1,34 @@
 const Sequelize = require('sequelize');
+const { models } = require('./index')
 
 module.exports = {
-  signup : () => {
+  signup: async (body) => {
     try{
-      return { response: 'You are signup.'}
+      const user = await models.users.create({
+        where: {
+          email: email,
+        },
+      })
+      return { response: user }
     }catch(error){
       return { error: error }
     };
   },
 
-  login : () => {
+  login: async (email) => {
     try{
-      return { response: 'You are logged in.'}
+      const user = await models.users.findOne({
+        where: {
+          email: email,
+        },
+        attributes: { exclude: ["createdAt", "updatedAt", "detetedAt"]},
+      })
+      return { response: user }
     }catch(error){
       return { error: error }
     };
   },
-  logout : () => {
+  logout: () => {
     try{
       return { response: 'You are logged out.'}
     }catch(error){

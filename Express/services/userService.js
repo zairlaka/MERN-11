@@ -87,7 +87,6 @@ module.exports = {
       delete [body.email, body.role, body.userId]
       delete body.email
       delete body.role
-      console.log("🚀 ~ file: userService.js:88 ~ updateUser: ~ body🔻:", body)
       
       // delete body.role;
       const user = await userModel.updateUser(body)

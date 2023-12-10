@@ -21,5 +21,8 @@
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
+  },
+  "jwt": {
+    "secret": "edGXZKKbezx44ZMPHHJbEkzRFMQ7z7j7dzN35fgQtlY="
   }
 }

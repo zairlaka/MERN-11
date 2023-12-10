@@ -32,7 +32,7 @@ db.sequelize.sync({alter: true}).then(() => {
   server.on('error', onError);
   server.on('listening', onListening);
 }).catch((error) => {
-  console.log("🚀 ~ file: www:35 ~ db.sequelize.sync ~ error🔻:", error)
+  console.log("db.sequelize.sync ---> ", error)
 })
 
 // server.listen(port);

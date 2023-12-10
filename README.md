@@ -19,3 +19,13 @@ where shoud our const enum
 how to use ternary operator in model query
 multiple search
 multiple sorting
+
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'));"
+
+cookies vs local storage
+
+Application-level middleware
+Router-level middleware
+send data to next middleware
+how to clean session table
+debugging
