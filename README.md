@@ -29,3 +29,5 @@ Router-level middleware
 send data to next middleware
 how to clean session table
 debugging
+session time constant
+enum constants

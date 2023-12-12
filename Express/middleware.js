@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken")
-const config = require("./config.json")
+const config = require("../config/config.json")
 const sessionModel = require("./models/sessionModel")
 const userModel = require("./models/userModel")
 
 module.exports = {
-  authorize: async (req, res, next) => {
+  authenticate_user: async (req, res, next) => {
     const token = req.cookies.authToken
     if(!token || token == undefined){
       return res.status(401).send({
-        error: "Unauthorized: Please login into your account first.",
+        error: "Unauthorized:401", message: "Please login into your account first.",
       })
     }
 
@@ -55,7 +55,7 @@ module.exports = {
 
       if(user.role !== "admin"){
         return res.status(403).send({
-          error: "Forbidden: You are not an Admin"
+          error: "Forbidden:403", message: "You are not an Admin."
         })
       }
       console.log("admin data ", user);
@@ -73,7 +73,7 @@ module.exports = {
 
       if(user.role !== "trainee"){
         return res.status(403).send({
-          error: "Forbidden: You are not an Trainee"
+          error: "Forbidden:403", message: "You are not a Trainee."
         })
       }
       next();
@@ -85,12 +85,12 @@ module.exports = {
   },
   instructor: async(req, res, next) => {
     try{
-      const user = res.locals.user 
+      const user = res.locals.user
       if(!user)return res.status(401).send({ error: "Unauthorized:401", message: 'Please login into your account first.' });
 
       if(user.role !== "instructor"){
         return res.status(403).send({
-          error: "Forbidden: You are not an Instructor"
+          error: "Forbidden:403", message: "You are not an Instructor"
         })
       }
       next();

@@ -11,7 +11,7 @@ module.exports = {
       }
        return res.send({ response: signupResponse.response })
     }catch(error){
-       res.send({ error: error})
+       return res.send({ error: error})
     }
   },
 
@@ -23,24 +23,28 @@ module.exports = {
       if(loginResponse.error){
         return res.status(401).json({ error: 'Invalid credentials' });
       }
-      res.cookie("authToken", loginResponse.response)
+      let options = {
+        maxAge: 1000 * 60 * 5, // would expire after 5 minutes
+        // httpOnly: true, // The cookie only accessible by the web server
+      }
+      res.cookie("authToken", loginResponse.response, options)
       return res.send({ response: loginResponse.response })
     }catch(error){
        return res.send({ error: error})
     }
   },
 
-  logout: (req, res) => {
+  logout: async (req, res) => {
     try{ 
-      const logoutResponse  = authService.logout();
+      const validate = await authSchema.logout.validateAsync(req.query)
+      const logoutResponse = await authService.logout(validate)
       if(logoutResponse.error){
-        res.send({ error: logoutResponse.error })
+        return res.send({ error: logoutResponse.error })
       }
-      res.send({ response: logoutResponse.response })
+      return res.send({ response: logoutResponse.response })
     }
     catch(error){
-      res.send({ error: error})
+      return res.send({ error: error})
     }
   }
-
 }

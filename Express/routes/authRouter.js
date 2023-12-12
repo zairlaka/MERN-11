@@ -5,6 +5,6 @@ const { sessionCheck } = require("../middleware")
 
 router.post("/signup", authController.signup);
 router.post("/login", sessionCheck, authController.login);
-router.get("/logout", authController.logout);
+router.delete("/logout", authController.logout);
 
 module.exports = router;

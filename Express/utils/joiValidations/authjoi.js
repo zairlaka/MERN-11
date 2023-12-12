@@ -15,5 +15,9 @@ module.exports = {
       passwordConfirmation: joi.ref('password'),
     })
   })(),
-  
+  logout: (() => {
+    return joi.object({
+      userId: joi.string().required(),
+    })
+  })(),
 }

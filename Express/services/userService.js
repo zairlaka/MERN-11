@@ -8,9 +8,9 @@ module.exports = {
     try {
       const userId = uuidV4();
       const isUser = await userModel.getUserByEmail(body.email);
-      if (isUser.response || isUser.error) {
+      if (isUser.response) {
         return {
-          error: "user with email already exists",
+          error: "User with this email is already exists",
         };
       }
 

@@ -28,9 +28,15 @@ module.exports = {
       return { error: error }
     };
   },
-  logout: () => {
+  logout: async (userId) => {
     try{
-      return { response: 'You are logged out.'}
+      const user = await models.users.findOne({
+        where: {
+          userId: userId,
+        },
+        attributes: { exclude: ["createdAt", "updatedAt", "detetedAt"]},
+      })
+      return { response: user }
     }catch(error){
       return { error: error }
     };

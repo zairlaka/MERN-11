@@ -1,28 +1,32 @@
 {
-  "db": {
+  "development": {
     "username": "zair",
     "password": "root",
     "port": 5432,
     "database": "node_live_db",
     "host": "127.0.0.1",
-    "dialect": "postgres",
-    "logging": false
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "production": {
     "username": "root",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres"
   },
   "jwt": {
-    "secret": "edGXZKKbezx44ZMPHHJbEkzRFMQ7z7j7dzN35fgQtlY="
+    "secret": "edGXZKKbezx44ZMPHHJbEkzRFMQ7z7j7dzN35fgQtlY=",
+    "timeLimit": {
+      "oneMinute": "1m",
+      "oneHour": "1h",
+      "oneDay": "24h"
+    }
   }
 }
