@@ -1,10 +1,10 @@
 // const Sequelize = require('sequelize');
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../../bin/dbConnection');
-class Projects extends Model {}
+class Project extends Model {}
 
 
-Projects.init(
+Project.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -37,7 +37,7 @@ Projects.init(
   }
 )
 
-module.exports = Projects;
+module.exports = Project;
 
 // sequelize model:generate --name Company --attributes name:STRING
 // sequelize model:generate --name User --attributes email:STRING,firstName:STRING,lastName:STRING,companyId:INTEGER

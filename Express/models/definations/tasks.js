@@ -2,11 +2,11 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../../bin/dbConnection');
 
-class Tasks extends Model {}
+class Task extends Model {}
 
 
 
-Tasks.init(
+Task.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -49,4 +49,4 @@ Tasks.init(
   }
 )
 
-module.exports = Tasks;
+module.exports = Task;

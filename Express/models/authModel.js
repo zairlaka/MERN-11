@@ -2,15 +2,17 @@ const Sequelize = require('sequelize');
 const { models } = require('./index')
 
 module.exports = {
-  signup: async (body) => {
-    try{
+  signup: async (body, userId) => {
+    try {
       const user = await models.users.create({
-        where: {
-          email: email,
-        },
-      })
-      return { response: user }
+        userId,
+        ...body,
+      });
+      return {
+        response: user,
+      };
     }catch(error){
+      console.log("🚀 ~ file: authModel.js:15 ~ signup: ~ error🔻:", error)
       return { error: error }
     };
   },

@@ -33,16 +33,19 @@ module.exports = {
   sessionCheck: async (req, res, next) => {
     try{
       const user = await userModel.getUserByEmail(req.body.email);
-      const userId = user.response.dataValues.userId;
-      const session = await sessionModel.getSessionByUserId(userId);
-      if(session.response){
-        if(req.cookies.authToken === session.response.dataValues.token)
-          return res.status(401).send({error: "Unauthorized:401", message: 'You are already signIn',})
-        if(session.response.dataValues.expireAt > new Date())
-          return res.status(401).send({error: "Unauthorized:401", message: 'You are already signIn from other device',})
+      if(user.response){
+        const userId = user.response.dataValues.userId;
+        const session = await sessionModel.getSessionByUserId(userId);
+        if(session.response){
+          if(req.cookies.authToken === session.response.dataValues.token)
+            return res.status(401).send({error: "Unauthorized:401", message: 'You are already signIn',})
+          if(session.response.dataValues.expireAt > new Date())
+            return res.status(401).send({error: "Unauthorized:401", message: 'You are already signIn from other device',})
+        }
       }
       next()
     }catch(error){
+      console.log("🚀 ~ file: middleware.js:46 ~ sessionCheck: ~ error🔻:", error)
       return res.send({
         error: "Error: something went wrong.",
       })

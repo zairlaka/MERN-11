@@ -1,3 +1,4 @@
+const config = require("../../config/config.json")
 const authService = require("../services/authService");
 const authSchema = require("../utils/joiValidations/authJoi");
 
@@ -24,7 +25,7 @@ module.exports = {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
       let options = {
-        maxAge: 1000 * 60 * 5, // would expire after 5 minutes
+        maxAge: 1000 * 60 * parseInt(config.jwt.timeLimit.oneMinute), // would expire after 5 minutes
         // httpOnly: true, // The cookie only accessible by the web server
       }
       res.cookie("authToken", loginResponse.response, options)

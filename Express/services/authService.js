@@ -1,5 +1,6 @@
 const authModel = require("../models/authModel");
 const sessionModel = require("../models/sessionModel");
+const userModel = require("../models/userModel");
 var bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const config = require("../../config/config.json")
@@ -9,10 +10,17 @@ const {v4: uuidV4} = require("uuid");
 module.exports = {
   signup: async (body) => {
     try{
-      const signupResponse = authModel.signup();
-      delete body.passwordConfirmation;
-      const { email, password } = body;
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const userId = uuidV4();
+      const isUser = await userModel.getUserByEmail(body.email);
+      if (isUser.response) {
+        return {
+          error: "User with this email is already exists",
+        };
+      }
+
+      delete body.confirmPassword;
+      body.password = await bcrypt.hash(body.password, 10);
+      const signupResponse = await authModel.signup(body, userId);
 
       if(signupResponse.error){
         return { error: signupResponse.error }
@@ -20,6 +28,7 @@ module.exports = {
       return {response: signupResponse.response }
 
     }catch(error){
+      console.log("🚀 ~ file: authService.js:30 ~ signup: ~ error🔻:", error)
       return({ error: error })
     }
   },

@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../../bin/dbConnection");
 
-class Users extends Model {}
+class User extends Model {}
 
-Users.init(
+User.init(
   {
     userId: {
       primaryKey: true,
@@ -35,6 +35,11 @@ Users.init(
     },
   },
   {
+    hooks: {
+      beforeValidate: (user, options) => {
+        user.email = user.email.toLowerCase();
+      },
+    },
     sequelize,
     timestamps: true,
     paranoid: true,
@@ -42,7 +47,7 @@ Users.init(
   }
 );
 
-module.exports = Users;
+module.exports = User;
 
 
 

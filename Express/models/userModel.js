@@ -29,7 +29,7 @@ module.exports = {
         }
       });
       if(!!!user){
-        return { error: `Sorry, couldn't find the user by the ${email}.`}
+        return { error: `Sorry, couldn't find the user by this ${email}.`}
       }
       return {
         response: user,
