@@ -1,7 +1,38 @@
-function Signup(){
+import { useState } from "react"
+import axios from "axios"
+
+function Signup(props){
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  
+  const submitForm = async (e) => {
+    e.preventDefault();
+    console.log("email", email)
+    console.log("password", password)
+    console.log("firstName", firstName)
+    console.log("lastName", lastName)
+    console.log("confirmPassword", confirmPassword)
+    const data  = await axios.post("http://localhost:4000/auth/signup",
+    {
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword
+    })
+    console.log("signup response ", data)
+    if(data){
+      return alert("Invalid Credentials ")
+    }
+    return alert("Successfull logged in.")
+  }
+
   return(
     <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 rounded-lg border border-indigo-500 drop-shadow-lg bg-slate-800 shadow-xl shadow-indigo-500/50">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-10 w-auto"
@@ -25,6 +56,9 @@ function Signup(){
                     required
                     id="first_name" 
                     type="text" 
+                    onChange={(e) => {
+                      setFirstName(e.target.value)
+                    }}
                   />
                 </div>
                 <div className="w-1/2 ml-1">
@@ -35,6 +69,9 @@ function Signup(){
                     required
                     id="last_name" 
                     type="text" 
+                    onChange={(e) => {
+                      setLastName(e.target.value)
+                    }}
                   />
                 </div>
               </div>
@@ -50,6 +87,9 @@ function Signup(){
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 bg-white/5 p-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                  onChange={(e) => {
+                    setEmail(e.target.value)
+                  }}
                 />
               </div>
             </div>
@@ -64,6 +104,9 @@ function Signup(){
                     placeholder="*******"
                     required
                     type="password" 
+                    onChange={(e) => {
+                      setPassword(e.target.value)
+                    }}
                   />
                 </div>
                 <div className="w-1/2 ml-1">
@@ -74,6 +117,9 @@ function Signup(){
                     placeholder="*******"
                     required
                     type="password" 
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value)
+                    }}
                   />
                 </div>
               </div>
@@ -84,8 +130,11 @@ function Signup(){
 
             <div>
               <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                className="fflex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white enabled:hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 focus:outline-none disabled:bg-gray-700 shadow-lg shadow-indigo-500/40"
+                disabled={!(email && password && firstName && lastName && confirmPassword)}
+                onClick={(e)=>{
+                  submitForm(e)
+                }}
               >
                 Sign Up
               </button>
@@ -94,7 +143,11 @@ function Signup(){
 
           <p className="mt-10 text-center text-sm text-gray-400">
             Already have an account?{' '}
-            <a href="#" className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300">
+            <a 
+              href="#" 
+              onClick={() => { void props.updateState(true)}}
+              className="font-semibold leading-6 text-indigo-400 hover:text-indigo-300"
+            >
               Sign In
             </a>
           </p>

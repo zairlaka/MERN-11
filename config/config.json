@@ -3,7 +3,7 @@
     "username": "zair",
     "password": "root",
     "port": 5432,
-    "database": "node_live_db",
+    "database": "mern-11",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
