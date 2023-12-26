@@ -1,10 +1,11 @@
 import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-// import './App.css'
+import './App.css'
 
-import Login from "./components/login"
-import Signup from "./components/signup"
+import AuthLayout from "./layouts/auth-layout";
+import InstructorLayout from "./layouts/instructor-layout";
+import InstructorDashboard from './components/instructorDashboard'
 
 
 function App() {
@@ -15,8 +16,9 @@ function App() {
 
   return (
     <>
-      {isLogin && <Login updateState={updateState}/>}
-      {!isLogin && <Signup updateState={updateState} />}
+      {/* <AuthLayout /> */}
+      <InstructorLayout />
+      {/* <InstructorDashboard /> */}
     </>
   )
 }
