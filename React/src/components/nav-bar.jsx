@@ -142,7 +142,7 @@ export default function Navbar(props) {
               </div>
             </Dialog>
           </Transition.Root>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="mx-auto px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center lg:hidden">
                 {/* Mobile menu button*/}
@@ -161,7 +161,7 @@ export default function Navbar(props) {
                 </Disclosure.Button> */}
               </div>
               <div className="flex flex-1 items-center justify-center lg:items-stretch lg:justify-start">
-                <div className="flex flex-shrink-0 items-center">
+                <div className="flex flex-shrink-0 items-center lg:hidden">
                   <img
                     className="h-8 w-auto"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"

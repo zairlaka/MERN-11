@@ -141,4 +141,24 @@ module.exports = {
       return { error: error }
     }
   },
+  getAllInstructors: async () => {
+    try {
+      const users = await models.users.findAll({
+        attributes: {
+          exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
+        },
+        where: {
+          role: 'instructor'
+        }
+
+      });
+      return {
+        response: users,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
 };

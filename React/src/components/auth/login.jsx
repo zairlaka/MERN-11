@@ -1,12 +1,14 @@
 import { useState } from "react"
 import axios from "axios"
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+
 
 // fetch need to be convert into json
 // axios auto convert json
 
 export default function Login(props) {
-
+  const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -23,7 +25,8 @@ export default function Login(props) {
     if(data.error){
       return alert("Invalid Credentials ")
     }
-    return alert("Successfull logged in.")
+    alert("Successfull logged in.")
+    return navigate('/onboarding')
   }
 
   return (

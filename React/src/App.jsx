@@ -16,8 +16,8 @@ function App() {
 
   return (
     <>
-      {/* <AuthLayout /> */}
-      <InstructorLayout />
+      <AuthLayout />
+      {/* <InstructorLayout /> */}
       {/* <InstructorDashboard /> */}
     </>
   )

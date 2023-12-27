@@ -99,4 +99,21 @@ module.exports = {
       });
     }
   },
+  getAllInstructors: async (req, res) => {
+    try {
+      const users = await userService.getAllInstructors();
+      if (users.error) {
+        return res.send({
+          error: users.error,
+        });
+      }
+      return res.send({
+        response: users.response,
+      });
+    } catch (error) {
+      return res.send({
+        error: error,
+      });
+    }
+  },
 }

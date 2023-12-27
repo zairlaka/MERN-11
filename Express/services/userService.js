@@ -98,5 +98,17 @@ module.exports = {
       return { errror: error }
     }
   },
+  getAllInstructors: async () => {
+    try{
+      const users = await userModel.getAllInstructors()
+      if(users.error){
+        return { error: users.error}
+      }
+      return { response: users.response }
+    }catch(error){
+      console.log("🚀 ~ file: userService.js:109 ~ getAllInstructors: ~ error🔻:", error)
+      return { error: error }
+    }
+  },
   
 }
