@@ -1,4 +1,4 @@
-const config = require("../../config/config.json")
+const config = require("../../config/config.json");
 const authService = require("../services/authService");
 const authSchema = require("../utils/joiValidations/authJoi");
 

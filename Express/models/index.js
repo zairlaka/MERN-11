@@ -5,6 +5,7 @@ const teams = require("./definations/teams");
 const projects = require("./definations/projects");
 const tasks = require("./definations/tasks");
 const sessions = require("./definations/sessions");
+const requests = require("./definations/requests");
 
 const models = {
   users,
@@ -13,6 +14,7 @@ const models = {
   projects,
   tasks,
   sessions,
+  requests,
 };
 
 /// relations
@@ -28,6 +30,25 @@ sessions.belongsTo(users, { foreignKey: "userId" });
 //projects-task one-to-many
 projects.hasMany(tasks, { foreignKey: "projectId" });
 tasks.belongsTo(projects, { foreignKey: "projectId" });
+
+users.hasMany(models.requests, { as: 'trainee', foreignKey: 'traineeId'});
+users.hasMany(models.requests, { as: 'instructor', foreignKey: 'instructorId'});
+
+// User.findByPk(id, {
+//   include: {
+//     model: User,
+//     as: 'Followers'
+//   }
+// });
+// User.findByPk(id, {
+//   include: {
+//     model: User,
+//     as: 'Following'
+//   }
+// });
+
+// User.hasMany(models.Follow, { as: 'FollowerLinks', foreignKey: 'follower'});
+// User.hasMany(models.Follow, { as: 'FollowingLinks', foreignKey: 'following'});
 
 //teamMembers-task one-to-many
 //teamMembers-Users one-to-many

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Dashboard from "../components/instructor/dashboard";
+import Requests from "../components/instructor/requests";
 import Navbar from "../components/nav-bar";
 import Sidebar from "../components/instructor/sidebar";
 import Trainees from "../components/instructor/trainee-management/trainees";
@@ -26,6 +27,7 @@ function InstructorLayout() {
           {component == "TASKS" && <Tasks />}
           {component == "TEAMS" && <Teams />}
           {component == "PROJECTS" && <Projects />}
+          {component == "REQUESTS" && <Requests />}
         </div>
       </div>
     </>

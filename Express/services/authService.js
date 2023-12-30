@@ -70,7 +70,7 @@ module.exports = {
       if(user.error){
         return { error: user.error }
       }
-      return {response: token }
+      return {response: {token: token, userId: userId} }
 
     }catch(error){
       return({ error: error })

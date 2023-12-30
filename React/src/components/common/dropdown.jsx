@@ -9,10 +9,9 @@ function classNames(...classes) {
 }
 
 export default function Dropdown({list_arr, onSelection}) {
-  console.log("🚀 ~ file: dropdown.jsx:12 ~ Dropdown ~ list_arr🔻:", list_arr)
   const [selected, setSelected] = useState(list_arr[0])
   useEffect(() => {
-    onSelection(selected);
+    onSelection(selected.id);
   }, [selected]);
   
 

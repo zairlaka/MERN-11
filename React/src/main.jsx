@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+
 // import App from './App.jsx'
 
 
 import AuthLayout from "./layouts/auth-layout";
 import InstructorLayout from "./layouts/instructor-layout";
+import TraineeLayout from "./layouts/trainee-layout";
 import Onboarding from './components/auth/onboarding';
 
 import './index.css'
@@ -27,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/instructor",
     element: <InstructorLayout />,
+  },
+  {
+    path: "/trainee",
+    element: <TraineeLayout />,
   },
 ]);
 

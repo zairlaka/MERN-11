@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Dropdown from "../common/dropdown";
-
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 // fetch need to be convert into json
@@ -9,42 +9,49 @@ import Dropdown from "../common/dropdown";
 
 export default function Onboarding() {
 
+  const navigate = useNavigate()
+
   const [instructorId, setInstructorId] = useState("")
   const [instructors, setInstructors] = useState([{ id: '', name: 'Choose Instructor' }])
-
+  const location = useLocation();
+  console.log("🚀 ~ file: onboarding.jsx:18 ~ Onboarding ~ location.state🔻:", location.state)
+  
   const getAllInstructors = async () => {
     await axios.get("http://localhost:4000/user/getAllInstructors").then((res) => {
-      console.log("🚀 ~ file: onboarding.jsx:18 ~ const{data}=awaitaxios.get ~ res🔻:", res)
       
       const list_arr = res.data.response.map(elem => (
         {
           id: elem.userId,
           name: [elem.firstName,elem.lastName].join(" ")
         } 
-      ));
-      setInstructors(list_arr);
-      console.log("-----", instructors);
+        ));
+        setInstructors(list_arr);
+        // console.log("-----", instructors);
     })
     
   };
+    
+    const submitForm = async (e) => {
+      e.preventDefault();
+      const userId = location.state.userId;
+
+      const { data } = await axios.post("http://localhost:4000/request/createRequest", {
+        instructorId: instructorId,
+        traineeId: userId,
+      });
+
+      if(data.error){
+        return alert("Invalid Credentials ")
+      }
+      alert("Successfull logged in.")
+      console.log("data ", data);
+      return navigate("/trainee");
+
+    };
 
   useEffect(() => {
     getAllInstructors();
   }, []);
-
-  const submitForm = async (e) => {
-    e.preventDefault();
-
-    // const { data } = await axios.post("http://localhost:4000/auth/login",
-    // {
-    //   instructorId,
-    // })
-
-    // if(data.error){
-    //   return alert("Invalid Credentials ")
-    // }
-    return alert(instructorId)
-  }
 
   return (
     <>

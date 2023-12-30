@@ -25,8 +25,10 @@ export default function Login(props) {
     if(data.error){
       return alert("Invalid Credentials ")
     }
-    alert("Successfull logged in.")
-    return navigate('/onboarding')
+    console.log(data)
+    alert("Sucessfully logged in");
+    return navigate("onboarding", { state: { userId: data.response.userId } });
+    // return navigate('/onboarding')
   }
 
   return (

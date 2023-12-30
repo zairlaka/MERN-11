@@ -13,7 +13,7 @@ const navigation = [
   { name: 'Projects', href: '#', icon: FolderIcon, current: false },
   { name: 'Tasks', href: '#', icon: CalendarIcon, current: false },
   { name: 'Teams', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
+  { name: 'Requests', href: '#', icon: ChartPieIcon, current: false },
 ]
 const teams = [
   { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
