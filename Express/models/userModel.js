@@ -43,23 +43,27 @@ module.exports = {
 
   getAllUsers: async (offset, query) => {
     let search = query.search
+    
+    const pagination_info = query.limit == "all" ? {} : {
+      offset: offset,
+      limit: query.limit,
+    }
     try {
       const users = await models.users.findAll({
         // attributes : ["firstName", "lastName", "role", "email"]
         attributes: {
-          exclude: ["password", "createdAt", "updatedAt", "deletedAt"],
+          exclude: ["password", "updatedAt", "deletedAt"],
         },
-        where: [
-          {
-            ...search.userId ? {userId: search.userId} : true
+        where: [{
+            ...(search?.userId ? {userId: search.userId} : true)
           },{
-            ...search.firstName ? { firstName: { [Op.like]: search.firstName }} : true
+            ...(search?.firstName ? { firstName: { [Op.like]: search.firstName }} : true)
           },{
-            ...search.lastName ? { lastName: { [Op.like]: search.lastName }} : true
+            ...(search?.lastName ? { lastName: { [Op.like]: search.lastName }} : true)
           },{
-            ...search.firstName ? { firstName: { [Op.like]: search.firstName }} : true
+            ...(search?.firstName ? { firstName: { [Op.like]: search.firstName }} : true)
           },{
-            ...search.role ? { role: { [Op.in]: [search.role] }} : true
+            ...(search?.role ? { role: { [Op.in]: [search.role] }} : true)
           },
         ],
         // where: { 
@@ -80,8 +84,7 @@ module.exports = {
       //     ['lastName', 'desc'],
       //     ['email', 'asc']
       //  ],
-        offset: offset,
-        limit: query.limit,
+        ...pagination_info
       });
       return {
         response: users,

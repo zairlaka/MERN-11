@@ -25,10 +25,10 @@ module.exports = {
         return res.status(401).json({ error: 'Invalid credentials' });
       }
       let options = {
-        maxAge: 1000 * 60 * parseInt(config.jwt.timeLimit.oneMinute), // would expire after 5 minutes
+        maxAge: 1000 * 60 * parseInt(config.jwt.timeLimit.oneHour), // would expire after 5 minutes
         // httpOnly: true, // The cookie only accessible by the web server
       }
-      res.cookie("authToken", loginResponse.response, options)
+      res.cookie("authToken", loginResponse.response.token, options)
       return res.send({ response: loginResponse.response })
     }catch(error){
        return res.send({ error: error})

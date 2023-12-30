@@ -44,7 +44,7 @@ module.exports = {
       }
 
       const token = jwt.sign(user.response.dataValues, config.jwt.secret,{
-        expiresIn: config.jwt.timeLimit.oneMinute,
+        expiresIn: config.jwt.timeLimit.oneHour,
         // expiresIn: "24h" //expiration time of the token is set to be 24 hours
       })
       const userId = user.response.dataValues.userId

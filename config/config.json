@@ -25,7 +25,7 @@
     "secret": "edGXZKKbezx44ZMPHHJbEkzRFMQ7z7j7dzN35fgQtlY=",
     "timeLimit": {
       "oneMinute": "1m",
-      "oneHour": "1h",
+      "oneHour": "60m",
       "oneDay": "24h"
     }
   }

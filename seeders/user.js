@@ -3,6 +3,20 @@ var {hash} = require('bcryptjs');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    const test_trainees = []
+    for (let i = 0; i < 10; i++) {
+      test_trainees.push({
+        userId: uuidV4(),
+        firstName: `test${i+1}`,
+        lastName: 'loop',
+        email: `test${i+1}_t@example.com`,
+        role: "trainee",
+        password: await hash('pass1234', 10),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      })
+    }
+ 
     // const password = await hash('pass1234', 10)
     return queryInterface.bulkInsert('users', [
       {
@@ -44,7 +58,8 @@ module.exports = {
         password: await hash('pass1234', 10),
         createdAt: new Date(),
         updatedAt: new Date()
-      },
+      }, 
+      ...test_trainees,
     ]);
   },
   down: (queryInterface, Sequelize) => {
