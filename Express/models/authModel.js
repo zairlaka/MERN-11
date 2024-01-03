@@ -43,4 +43,21 @@ module.exports = {
       return { error: error }
     };
   },
+  getSession: async (userId) => {
+    try {
+      const session = await models.sessions.findOne({
+        where: {
+          userId: userId,
+        },
+      });
+
+      return {
+        response: session,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
 }

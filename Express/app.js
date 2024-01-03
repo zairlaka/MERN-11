@@ -3,6 +3,7 @@ const listEndpoints = require('express-list-endpoints');
 var express = require('express');
 // var path = require('path'); //
 var cookieParser = require('cookie-parser');
+var bodyParser = require("body-parser");
 var logger = require('morgan');
 var cors = require("cors");
 
@@ -38,7 +39,13 @@ const corsOptions = {
   optionsSuccessStatus: 200
 }
 // app.use(cors(corsOptions));
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
 // app.use(express.static(path.join(__dirname, 'public'))); //
 
 // app.use('/', indexRouter); //

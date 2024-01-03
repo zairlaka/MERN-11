@@ -1,4 +1,4 @@
-const config = require("../../config/config.json");
+const config = require("../config/config.json");
 const authService = require("../services/authService");
 const authSchema = require("../utils/joiValidations/authJoi");
 
@@ -47,5 +47,23 @@ module.exports = {
     catch(error){
       return res.send({ error: error})
     }
-  }
+  },
+  getSession: async (req, res) => {
+    try {
+      const userId = req.cookies.auth.userId;
+      const session = await authService.getSession(userId);
+      if (session.error) {
+        res.send({
+          error: session.error,
+        });
+      }
+      res.send({
+        response: session.response,
+      });
+    } catch (error) {
+      res.send({
+        error: error,
+      });
+    }
+  },
 }

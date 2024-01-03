@@ -1,26 +1,42 @@
-import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+import { Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./middleware";
+
 import './App.css'
+
 
 import AuthLayout from "./layouts/auth-layout";
 import InstructorLayout from "./layouts/instructor-layout";
-import InstructorDashboard from './components/instructorDashboard'
+import TraineeLayout from "./layouts/trainee-layout";
+import Onboarding from './components/auth/onboarding';
+import NotFound from "./not-found";
 
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true)
-  const updateState = (newState) => {
-    setIsLogin(newState)
-  }
-
   return (
-    <>
-      <AuthLayout />
-      {/* <InstructorLayout /> */}
-      {/* <InstructorDashboard /> */}
-    </>
-  )
+    <Routes path="/">
+      <Route path="">
+        <Route index element={<AuthLayout />} />
+        <Route path="onBoarding" element={<Onboarding />} />
+      </Route>
+      <Route
+        path="instructor"
+        element={
+          <ProtectedRoute>
+            <InstructorLayout />
+          </ProtectedRoute>
+        }
+      ></Route>
+      <Route
+        path="trainee"
+        element={
+          <ProtectedRoute>
+            <TraineeLayout />
+          </ProtectedRoute>
+        }
+      ></Route>
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;

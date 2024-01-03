@@ -3,7 +3,7 @@ const sessionModel = require("../models/sessionModel");
 const userModel = require("../models/userModel");
 var bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
-const config = require("../../config/config.json")
+const config = require("../config/config.json")
 const {v4: uuidV4} = require("uuid");
 
 
@@ -96,5 +96,23 @@ module.exports = {
     }catch(error){
       return({ error: error })
     }
-  }
+  },
+
+  getSession: async (userId) => {
+    try {
+      const session = await authModel.getSession(userId);
+      if (session.error || !session.response) {
+        return {
+          error: session.error,
+        };
+      }
+      return {
+        response: true,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
 }
