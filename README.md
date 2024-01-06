@@ -31,3 +31,6 @@ how to clean session table
 debugging
 session time constant
 enum constants
+
+##notes
+optional chaining operator user?.email

@@ -60,4 +60,21 @@ module.exports = {
       };
     }
   },
+  getSessionByRefreshToken: async (refreshToken) => {
+    try {
+      const session = await models.sessions.findOne({
+        where: {
+          refreshToken: refreshToken,
+        },
+      });
+
+      return {
+        response: session,
+      };
+    } catch (error) {
+      return {
+        error: error,
+      };
+    }
+  },
 }

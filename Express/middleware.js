@@ -5,42 +5,66 @@ const userModel = require("./models/userModel")
 
 module.exports = {
   authenticate_user: async (req, res, next) => {
-    const token = req.cookies.authToken
-    if(!token || token == undefined){
+    const authHeader = req.headers['authorization']
+    console.log("🚀 ~ file: middleware.js:9 ~ authenticate_user: ~ authHeader🔻:", authHeader)
+    if(!!!authHeader) {
       return res.status(401).send({
-        error: "Unauthorized:401", message: "Please login into your account first.",
+        error: "Unauthorized....", message: "Please login into your account first.",
       })
     }
-
-    try {
-      const user = jwt.verify(token, config.jwt.secret);
-      res.locals.user = user;
-      next();
-   } catch (err) {
-      if (err instanceof jwt.TokenExpiredError) {
-        const decoded = jwt.decode(token);
-        
-        const deleteSession = await sessionModel.deleteSession(decoded.userId)
-        if(deleteSession.error){ 
-          console.log("Session not found to delete after token expiration.") 
-        }else{ console.log("Session deleted after token expiration.")}
-
-        return res.status(401).send({ error: "Unauthorized:401", message: 'Access denied. Token has expired.' });
+    const token = authHeader.split(' ')[1];
+    jwt.verify(
+      token,
+      config.jwt.access_token_secret,
+      (err, decoded) => {
+        if(err){
+          return res.status(403).send({
+            error: "Forbidden", message: "Your access token has expired. Please login into your account first.",
+          })
+        }
+        console.log("🚀 ~ file: middleware.js:16 ~ authenticate_user: ~ decoded🔻:", decoded)
+        req.user = decoded;
+        next();
       }
-      return res.status(500).json({ message: 'Internal server error.' });
-   }
+    )
+
+  //   const token = req.cookies.authToken
+  //   if(!token || token == undefined){
+  //     return res.status(401).send({
+  //       error: "Unauthorized:401", message: "Please login into your account first.",
+  //     })
+  //   }
+
+  //   try {
+  //     const user = jwt.verify(token, config.jwt.secret);
+  //     res.locals.user = user;
+  //     next();
+  //  } catch (err) {
+  //     if (err instanceof jwt.TokenExpiredError) {
+  //       const decoded = jwt.decode(token);
+        
+  //       const deleteSession = await sessionModel.deleteSession(decoded.userId)
+  //       if(deleteSession.error){ 
+  //         console.log("Session not found to delete after token expiration.") 
+  //       }else{ console.log("Session deleted after token expiration.")}
+
+  //       return res.status(401).send({ error: "Unauthorized:401", message: 'Access denied. Token has expired.' });
+  //     }
+  //     return res.status(500).json({ message: 'Internal server error.' });
+  //  }
   },
   sessionCheck: async (req, res, next) => {
     try{
       const user = await userModel.getUserByEmail(req.body.email);
+      res.user = user;
       if(user.response){
         const userId = user.response.dataValues.userId;
         const session = await sessionModel.getSessionByUserId(userId);
         if(session.response){
           if(req.cookies.authToken === session.response.dataValues.token)
-            return res.status(401).send({error: "Unauthorized:401", message: 'You are already signIn',})
+            return res.status(401).send({error: "Unauthorized", message: 'You are already signIn',})
           if(session.response.dataValues.expireAt > new Date())
-            return res.status(401).send({error: "Unauthorized:401", message: 'You are already signIn from other device',})
+            return res.status(401).send({error: "Unauthorized", message: 'You are already signIn from other device',})
         }
       }
       next()
@@ -53,8 +77,8 @@ module.exports = {
   },
   admin: async(req, res, next) => {
     try{
-      const user = res.locals.user 
-      if(!user)return res.status(401).send({ error: "Unauthorized:401", message: 'Please login into your account first.' });
+      const user = req.user 
+      if(!user)return res.status(401).send({ error: "Unauthorized", message: 'Please login into your account first.' });
 
       if(user.role !== "admin"){
         return res.status(403).send({
@@ -71,8 +95,8 @@ module.exports = {
   },
   trainee: async(req, res, next) => {
     try{
-      const user = res.locals.user 
-      if(!user)return res.status(401).send({ error: "Unauthorized:401", message: 'Please login into your account first.' });
+      const user = req.user 
+      if(!user)return res.status(401).send({ error: "Unauthorized", message: 'Please login into your account first.' });
 
       if(user.role !== "trainee"){
         return res.status(403).send({
@@ -88,8 +112,8 @@ module.exports = {
   },
   instructor: async(req, res, next) => {
     try{
-      const user = res.locals.user
-      if(!user)return res.status(401).send({ error: "Unauthorized:401", message: 'Please login into your account first.' });
+      const user = req.user
+      if(!user)return res.status(401).send({ error: "Unauthorized....", message: 'Please login into your account first.' });
 
       if(user.role !== "instructor"){
         return res.status(403).send({

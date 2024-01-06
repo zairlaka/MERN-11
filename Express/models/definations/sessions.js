@@ -14,7 +14,7 @@ Session.init(
       allowNull: false,
       primaryKey: true,
     },
-    token: {
+    refreshToken: {
       type: DataTypes.STRING(500),
       allowNull: false,
     },

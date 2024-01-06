@@ -22,8 +22,9 @@
     "dialect": "postgres"
   },
   "jwt": {
-    "secret": "edGXZKKbezx44ZMPHHJbEkzRFMQ7z7j7dzN35fgQtlY=",
+    "access_token_secret": "edGXZKKbezx44ZMPHHJbEkzRFMQ7z7j7dzN35fgQtlY=",
     "timeLimit": {
+      "test30Seconds": "30s",
       "oneMinute": "1m",
       "oneHour": "60m",
       "oneDay": "24h"

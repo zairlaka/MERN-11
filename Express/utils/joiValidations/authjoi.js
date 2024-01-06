@@ -18,7 +18,7 @@ module.exports = {
   })(),
   logout: (() => {
     return joi.object({
-      userId: joi.string().required(),
+      refreshToken: joi.string(),
     })
   })(),
 }

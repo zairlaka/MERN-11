@@ -3,11 +3,11 @@ const { Op } = require('sequelize')
 
 
 module.exports = {
-  createSession: async (userId, token, expireAt) => {
+  createSession: async (userId, refreshToken, expireAt) => {
     try {
       const session = await models.sessions.create({
         userId,
-        token,
+        refreshToken,
         expireAt,
       });
       return {
